@@ -1,113 +1,126 @@
-Design a Blogging Platform
+Thiết kế 1 môi trường Bliog 
 ===
 
 <!--ts-->
-* [Design a Blogging Platform](#design-a-blogging-platform)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 nên tảng Blogging](#degsin-a-blogging-platform)
+* [Trạng thái vấn đề](#problem-statement)
+* [Yêu cầu ](requirements)
+   * [Yêu cầu lõi](#core-requirement)
+   * [Yêu cầu mức độ cao](#hight-level-requirements)
+   * [Yêu cầu vi mô](#micro-requirements)
+* [Đầu ra ](#out-put)
+   * [Tài liệu thiết kế ](#design-document)
+   * [Nguyên mẫu](#prototype)
+      * [Gợi ý công nghệ ngăn xếp](#recommendationn-tech-stack)
+      * [Hãy nhớ](#keep-in-mind)
+* [Kết qủa](#outcome)
+  * [Bạn sẽ học ](#youll-learn)
+* [chia sẻ và cảm ơn ](#share-and-shoutout)
+
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề
 
-Design a simple multi-user publishing/blogging platform, allowing writers to publish and manage the blogs under their personal publication and readers to read them.
+Thiết kế 1 môi trường Xuxaart bản\blogging nhiều người dùng cơ bản, cho phép người viết xuất bản và quản lý blog dưới xuất bản cá nhân của họ và người đọc đoc chúng.
 
-# Requirements
+
+# Yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+* Báo cáo trạng vấn đề là cái để bắt đầu, hãy sáng tạo và đào sâu vào chi tiết dự án và thêm các hạn chế và đặc tính bạn nghĩ là sẽ quan trọng.
 <!--re-->
 
-## Core Requirements
+## Yêu cầu lõi.
 
- - writers should be able to **publish** blog under their personal publication
- - readers should be able to **read** the blog
- - a user can be both - a reader as well as a writer
- - author of the blog should be able to **delete** the blog
- - blog may **contain images**, but will not contain any video
- - time to access the blog should be **as low as possible**
- - we have to render "**number of blogs**" written by every user on his/her profile
- - users should be able to **search** for a particular blog
- - the platform should be scaled for **5 million** daily active readers
- - the platform should be scaled for **10,000** daily active writers
-
+ - Người viết nên có thể **xuât bản** blog dướí sự xuất bản cá nhân 
+ - Người đọc nên có thể **đọc** blog.
+ - Một người dùng có thể là cả người đọc cũng như người viết.
+ - Tác giả của Blog nên là 1 có thể **xóa** Blog.
+ - Blog có thể **chứa ảnh**, nhưng không nên chứa video. 
+ - Thời gian để truy cập Blog nên là **thấp nhất có thể**
+ - Chúng ta có thể biểu diễn"**số lượng blogs**" được viết bởi mỗi người dùng trên hồ sơ của anh\cô ấy.
+ - Người dùng nên có thể **tìm kiếm** 1 trang Blog cụ thể .
+ - Môi trường nên có quy mô **5 triệu ** người đọc hoạt động hàng ngày.
+ - Môi trường nên có quy mô cho **10,000** người viết hoạt động hằng ngày.
+ - 
+ 
+ 
 ##  High Level Requirements
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
-<!--he-->
+- Tạo các thành phần cao cấp thao thác với **khả năng có sẵn cao**
+ - Đảm bảo rằng dữ liệu trong hệ thống của bạn là **vững chắc**, cho dù vấn đề gì xẩy ra.
+ - Định nghĩa hệ thống của bạn sẽ cư xử như nào trong khi **phóng to ** và **thu nhỏ quy mô**
+ - làm cho hệ thống của bạn **hiệu quả về chi phí** và cung cấp 1 lý do tương tự 
+ - Mô tả **kế hoạch về công suất** như nào giúp bạn tạo ra 1 quyết định thiết kế đúng. 
+ - Nghĩ tới các dịch vụ khác sẽ tương tác như nào với dịch vụ của bạn
+ <!--he-->
 
-##  Micro Requirements
+##  Yêu cầu vi mô
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Chắc chắn rằng dữ liệu trong hệ thống của bạn **không bao giờ** rơi vào trạng thái không nhất quán.
+ - Đảm bảo hệ thống của bạn là **Không bế tắc** ( nếu có)
+ - Đảm bảo rằng thông lượng hệ thống của bạn sẽ không bị ảnh hưởng bởi **khóa**, nó xẩy ra, hãy nói nó ảnh hưởng như nào
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Thiết kế tài liệu 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+Tạo 1 **thiết kế tài liệu** của hệ thống / đặc điểm cái nói lên tất cả các quyết định thiết kế quan trọng, sự cân bằng, các thành phần, các dịch vụ, và thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn xử lý quy mô và cái gì cuối cùng sẽ thành điểm tắc nghẽn.
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+**Đừng** tạo ra cac thành phần không cần thiết, chỉ để thiết kế trông phức tạp.  Một thiết kế tốt sẽ **luôn luôn đơn giản và trang trọng**. Một cách tốt để nghĩ tới nó là nếu như bạn tạo 1 tiên trính/máy/cơ sở hạ tầng riêng lẻ cho mỗi thành phần và bạn sẽ phải tư viết nó, Banj vẫn muốn làm?
+
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
-To understand the nuances and internals of this system, build a prototype that
+Để hiểu săc thái và nội dung của hệ thống này, hãy xây dựng 1 nguyên mẫu của nó.
 
-- has a realtional database with schema able to handle all the core requirements
-- has an interface for writers to
-   - publish the blog
-   - manage the blog
-- has an interface for readers to
-   - browse all the publications and read the blogs
-   - search a blog or a publication
+- có 1 cơ sở dữ liệu quan hệ với lược đồ có thể xử lý tất cả cá yêu cầu lõi.
+- Có 1 giao diện cho người viết để :
+  - xuất bản Blog 
+  - quản lý Blog 
+- có 1 giao diện cho người đọc để : 
+  - duyệt qua tất cả các bản xuât bản và đọc chúng 
+  - Tìm kiếm 1 Blog xuất bản. 
 
-###  Recommended Tech Stack
 
-This is a recommended tech-stack for building this prototype
+
+###  Gợi ý công nghệ ngăn xếp
+
+Đây là 1 gợi ý công nghệ ngăn xếp cho xây dưng nguyên mẫu này 
+
+
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, NodeJS|
 |Database|Relational Database - MySQL, PostgreSQL|
 
-###  Keep in mind
+###  Hãy nhớ 
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+Có các cạm bẫy thông thường cái mà bạn nên nhớ trong khi xây dựng nguyên mẫu.
 
-- data should not be redundant in your schema
+- Dữ liệu không nên dư thừa trong lựọc đồ .
 
-# Outcome
 
-##  You'll learn
 
-- database schema design
-- building web application - a simple CRUD
+# Kết quả 
+
+##  Bạn sẽ học 
+
+- Thiết kế lược dồ cơ sở dữ liệu 
+- Xây dựng 1 ứng dụng web cơ bản - 1 CRUD đơn giản 
+
+
 
 <!--fs-->
 #  Share and shoutout
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+Nếu bạn thấy trình bày này hữu ích, hãy :
+ - Chia sẻ hướng dẫn này với bạn của bạn và cộng sự 
+ - Đánh giá repo này và giúp nó tiếp cận nhiều hơn với độc giả 
+ - cho tôi 1 lời cảm ơn trên  [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần  [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) -Một lớp học cao cái mà giúp bạn trở lên tốt hơn ở thiết kế quy mô ,chịu lỗi và hệ thống khả dụng cao. 
 <!--fe-->
