@@ -21,7 +21,7 @@ Thiết kế 1 môi trường Bliog
 
 # Báo cáo vấn đề
 
-Thiết kế 1 môi trường Xuxaart bản\blogging nhiều người dùng cơ bản, cho phép người viết xuất bản và quản lý blog dưới xuất bản cá nhân của họ và người đọc đoc chúng.
+Thiết kế 1 môi trường Xuất  bản\blogging nhiều người dùng cơ bản, cho phép người viết xuất bản và quản lý blog dưới xuất bản cá nhân của họ và người đọc đoc chúng.
 
 
 # Yêu cầu 
