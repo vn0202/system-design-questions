@@ -1,102 +1,107 @@
-Design a Word Dictionary
+Thiết kế 1 từ điển từ
 ===
 
 <!--ts-->
-* [Design a Word Dictionary](#design-a-word-dictionary)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 từ điển word](#design-a-word-dictionary)
+* [Báo cáo vấn đề ](#problem-statement)
+* [Yêu cầu ](#requirements)
+  * [Yêu cầu lõi](#core-requirements)
+  * [Yêu cầu cấp cao](#hight-level-requirements)
+  * [Yêu cầu vi mô](#micro-requirements)
+* [Đầu ra](#output)
+   *[Tài liệu thiết kế](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gợi ý công nghệ ngăn xếp ](#recommended-tech-stack)
+      * [Hãy nhớ ](#keep-in-mind)
+* [Kết quả](#outcome) 
+  * [Bạn sẽ học](#youll-learn)
+* [Chia sẻ và cảm ơn ](#share-and-shoutout)
+
+
 <!--te-->
 
-# Problem Statement
+# Báo cáo trạng thái 
 
-Design a service that serves English Word Dictionary. The service exposes endpoints for getting the meaning given the word. The dictionary is **weekly** updated through a changelog which has the words and meanings that needs to be updated and this changelog will contain at max 1000 words. The total size of the dictionary is **1TB** and it holds **171476** words.
+Thiết kế 1 dịch vụ cái mà phục vụ từ điển từ Tiếng Anh. Dịch vụ này hiển thị điểm cuối nhận được ý nghĩa của từ. Từ điểm được cập nhập **hàng tuần** thông qua bảng chứa các từ và ý nghĩa cái mà cần được cập nhật và bảng này có thể chứa tối đa 1000 từ. Tổng kích thước của từ điển là **1TB** và nó có **171476** từ. 
 
-> Note: While building this service we are not allowed to use any traditional database like MySQl, PostgreSQL, MongoDB, etc. Be creative and use something different.
+> Chú ý: Trong khi xây dựng dịch vụ này, chúng ta không được phép ử dụng bất kỳ CSDL truyền thống nào như MySQL, POstgreSQL, MongoDB... Hãy sáng tạo và sử dụng các cách khác. 
 
-# Requirements
-
+# Yêu cầu 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+* Báo cáo trạng thái là cái để bạn bắt đầu, hãy sáng tạo và đào sâu vào chi tiết sản phẩm và thêm các ràng buộc và các đặc tính bạn nghĩ nó sẽ quan trọng.
+
 <!--re-->
 
-## Core Requirements
+## Yêu cầu lõi
 
- - service should handle **5 million** requests per minute
- - dictionary is updated **weekly** through changelog
- - you cannot use a traditional database, be creative here
- - the service should be cost-efficient and "convenient"
+ - Dịch vụ có thể xử lý **5 triệu ** yêu cầu trên phút.
+ - Từ điển được update **hàng tuần** thông qua bảng. 
+ - Bạn không được sử dụng các CSDL truyền thống, hãy sáng tạo. 
+ - Dịch vụ nên hiệu quả về kinh tế và thuận tiện.
 
-##  High Level Requirements
+ ##  Yêu cầu cao 
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+- Tạo ra các thành phần bậc cao thao tác với **tính khả dụng cao**
+ - Đảm bảo rằng dữ liệu trong hệ thống của bạn là **kiên cố** cho dù bất kỳ vấn đề gì xẩy ra.
+ - Định nghĩa các mà hệ thống của bạn cư xử như naò trong khi **phóng to** và **thu nhỏ** 
+ - Làm cho hệ thống của bạn **hiệu quả về kinh tế** và cung cấp 1 lý do tương tự.
+ - Mô tả **kế hoạch hiệu suất** như nào giúp bạn tạo đưa ra 1 quyết định thiết kế tốt. 
+ - Nghĩ về cách các dịch vụ khác sẽ tương tác với dịch vụ của bạn . 
 <!--he-->
 
-##  Micro Requirements
+##  Yêu cầu vi mô
 <!--ms-->
+- Đảm bảo dữ liệu trong hệ thống của bạn **không bao giờ** rơi vào trạng thái không nhất quán. 
+- Đảm bảo hệ thống của bạn là **không rơi vào bế tắc**(nếu có thể )
+- 
 - ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Đảm bảo thông lượng hệ thống của bạn sẽ không bị ảnh hưởng bới khóa, nếu nó xẩy ra, hãy nói nó ảnh hưởng như nào. 
 <!--me-->
 
 # Output
 
-## Design Document
+## Thiết kế tài liệu 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+Tạo 1 **Thiết kế tài liệu** của hệ thống /đặc tính này nói rằng tất cả các quyết định thiết kế, chi phí đánh đổi, thành phần, dịch vụ, và thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn xử lý ở quy mô, và cái gì cuối cùng sẽ trờ thành điểm tắc.
+
+Đừng tạo ra các thành phần không cần thiết,cái mà chỉ làm cho thiết kế trông phức tạp hơn. MỘt thiết kế tốt **luôn luôn đơn giản và trang trọng**. Một cách tốt để nghĩ về điều này nếu như bạn tạo ra 1 tiến trình/máy/cơ sở riêng biệt cho mỗi thành phần và bạn sẽ phải tự code nó, bạn vẫn muốn làm nó?
 <!--de-->
 
-## Prototype
-
+## Nguyên mẫu 
+ 
+Để hiểu các sắc thái và nội dung bên trong của hệ thống, xây dựng 1 nguyên mẫu 
+- mã của bạn triển khai cục bộ và không lo lắng về quy mô
 To understand the nuances and internals of this system, build a prototype that
 
 - code your implementation locaclly and not worry about scale
 
-###  Recommended Tech Stack
+###  Gợi ý công nghệ ngăn xếp 
 
-This is a recommended tech-stack for building this prototype
+Đây là 1 gợi ý công nghệ ngăn xếp cho xây dựng nguyên mẫu này. 
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, C++, Python|
 
-###  Keep in mind
+###  Hãy nhớ 
+Có những cạm bãy phổ biến cái mfà bạn nên nhớ trong khi xây dựng nguyên mẫu này. 
+ - hãy xem số lượng từ và tổng kích thước của từ điển.
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
 
-- look at the number of words and total size of the dictionary
+# Kết quả 
 
-# Outcome
-
-##  You'll learn
-
-- designing storage formats
-- data driven decisions
+##  Bạn sẽ học được 
+- Thiết kế định dạng lưu trữ. 
+- Các quyết định theo hướng dữ liệu 
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+ Nếu bạn thấy hướng dẫn này hữu ích, hãy 
+ - Chia sẻ nó với bạn bè và cộng sự của bạn.
+ - đánh giá repo and giúp nó tiếp cận sâu hơn với thinh giả. 
+ - Tặng cho tôi 1 lời cảm ơn trên Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần của  [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - Một lớp học chuyên sâu có thể giúp bạn trở nên giỏi hơn ở thiêt kế quy mô, chịu lỗi ,và hệ thống có tính khả dụng cao
 <!--fe-->
