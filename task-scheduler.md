@@ -1,115 +1,121 @@
-Design a Distributed Task Scheduler
+Thiết kế 1 tiến trình tác vụ phân tán 
 ===
 
 <!--ts-->
-* [Design a Distributed Task Scheduler](#design-a-distributed-task-scheduler)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 bộ lập lịch tác vụ phân tán ](#design-a-distributed-task-scheduler)
+* [Báo cáo vấn đề ](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu lõi](#core-requirements)
+   * [Các yêu cầu cấp cao ](#high-level-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra ](#output)
+   * [Tài liệu thiết kế](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gợi ý công nghệ stack](#recommended-tech-stack)
+      * [Ghi nhớ](#keep-in-mind)
+* [Kết quả](#outcome)
+   * [Bạn sẽ học ](#youll-learn)
+* [Chi sẻ và cảm ơn](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề
 
-Design a distributed task scheduler in which the client can register a task and the time at which it should be executed. The task needs to be picked up within 10 second of its scheduled time of execution. The tasks can be of two types
+Thiết kế 1 bộ lập lịch tác vụ phân tán, nơi mà các máy khách có thể đăng ký 1 nhiệm vụ và thời gian thực thi. Nhiệm vụ cần được thực thi trong 10s kể từ thời gian thực thi theo lịch của nó. Các tác vụ có thể là 2 kiểu .
+ 
+ - nhiệm vụ đơn lẻ.
+ - Nhiệm vụ định kỳ
+ 
+Các máy khách có thể đăng ksy tác vụ với 1 cú pháp cron và lịch trình của chúng ta cần thực thi nó theo lịch trình. Máy khách có thể gửi 1 tác vụ có tính chất 1 lần điều đó co nghĩa là một khi thực thi nó sẽ không bao giờ được thực thi lại. 
 
- - one-time task
- - recurring tasks
+ Ứng dụng tiềm năng: 
+ - Nhắc nhở trong ứng dụng lịch 
+ - Phân tán Cron 
+ - Gửi thông báo tiến trình tới người dùng.
 
-Clients can register task with a cron syntax and our scheduler needs to execute it as per the schedule. Client can submit a task that is one-time in nature which means once executed it will never be picked again.
 
-Potential applications:
-
- - reminders in calendar applications
- - distributed cron
- - sending scheduled notifications to users
-
-# Requirements
+# Các yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo trạng thái là những thứ để bắt đầu, hãy sáng tạo và đào sâu vào sản phẩm chi tiết và thêm các ràng buộc và đặc tính bạn nghĩ nó quan trọng*
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu lõi
+ - Các máy khách đăng ký tác vụ với thời gian thực thi tiến trình hoặc cú pháp cron 
+ - tác vụ là thực thi 1 lần hoặc định kỳ 
+ - Tác vụ nên được chọn để thực thi cho 10 giây cho thời gian thực thi tiến trình của nó. 
 
- - clients to rgister task with either schedule time of execution or cron syntax
- - task is either one-time execution or recurring
- - task should be picked up for execution within 10 seconds of its scheduled execution
-
-##  High Level Requirements
+##  Các yêu cầu cấp cao
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+- Tạo ra các thành phần cao cấp tương tác với **tính khả dụng cao**
+- Đảm bảo răng dữ liệu của bạn trong hệ thống là **kiên cố** cho dù vấn đề gì xảy ra. 
+- Định  nghĩa cách mà hệ thống của bạn sẽ cư xử như nào trong khi phóng to và thu nhỏ quy mô. 
+- làm cho hệ thống của bạn hiệu quả về kinh tế và đưa ra 1 lý do tương tự. 
+- Mô tả **kế hoạch hiệu suất** của bnaj cái mà giúp cho bạn đưa ra các quyết định thiết kê tốt. 
+- nghĩ về cách mà hệ thống của bạn sẽ tương tác với các dịch vụ khác. 
+
 <!--he-->
 
-##  Micro Requirements
+##  Các yêu cầu vi mô
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Đảm bảo dữ liệu trong  hệ thống của bạn là **không bao giờ** rơi vào trạng thái không nhất quán. 
+- Đảm bảo hệ thống của bạn là **không có lỗi**(nếu có thể )
+- Đảm bảo thông lượng của hệ thống của bạn là không bị ảnh hưởng bởi khóa, nếu có hãy phát biểu nó ảnh hưởng như nào. 
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu thiểt kế 
+
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+Tạo **tài liệu thiết kế** của hệ thống /tính năng này phát biểu rằng tất cả các quyết định thiết kế quan trọng, các đánh đổi, các thành phần, các dịch vụ, và các thông tin liên lạc. Đồng thời, cũng chỉ rõ hệ thống của bạn xử lý như nào ở quy mô lớn và cái gì sẽ thực sự trở thành điểm nghẽn.
+
+**đừng** tạo các thành phần không cần thiết cái mà chỉ làm cho thiết kế của bạn trông phức tạp hơn. 1 thiết kế tốt luôn đơn giản và trang trọng. Một cách tốt để nghĩ về nó nếu như bạn tạo ra 1 tiến trình/máy/kiên trúc hạ tầng cho mỗi thành phần và bạn sẽ phải tự viết nó, bạn vẫn muốn làm. 
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
+Để hiểu các thần thái và nội dung của hệ thống này, xây dựng 1 nguyên mẫu 
+- 
 To understand the nuances and internals of this system, build a prototype that
 
-- schedules mock executions as per configured schedule
-- simulate concurrent executions
+- Lập lịch trình thực thi giả như tiến trình đã cấu hình. 
+- Mô phỏng các thực thi đồng thời. 
 
-###  Recommended Tech Stack
 
-This is a recommended tech-stack for building this prototype
+###  Công nghệ Stack gợi ý 
+
+Đây là một công nghệ ngăn xếp được gợi ý cho xây dựng nguyên mẫu này. 
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, C++|
 |Database|MySQL|
 
-###  Keep in mind
+###  Ghi nhớ 
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+ Có những cạm bẫy phổ biến bạn cần nhớ khi xây dựng nguyên mẫu này:
 
-- every component should have predictable SLA to meet overall 10 second SLA
-- try to separate the concerns and repeatedly
-- scheduling recurring tasks is easier than you think
+- Mỗi thành phần nên có dự đoán SLA để khái quát SLA tổng thể 10s. 
+- Lập lịch tác vụ định kỳ dễ hơn bạn nghĩ.
 
-# Outcome
 
-##  You'll learn
+# Kết quả 
 
-- design components with predictable SLA
-- separation of concerns
-- how to implement recurring execution in a stateless way
+##  Bạn sẽ học 
+
+- Thiết kế các thành phần với dự đoán SLA. 
+- Chía các mối quan tâm 
+- Cách để triển khai các thực thi định kỳ trong các vô trạng thái.
+
+
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn. 
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+Nếu bạn thấy hướng dẫn này hữu ích,
+- Chia sẻ nó với bạn bè và cộng sự của bạn. 
+- đánh giá kho này và giúp nó tiếp cận với nhiều khán giả hơn. 
+- cho tôi 1 lời cảm ơn trên  [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
-<!--fe-->
+Hương dẫn này là 1 phần của [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) -Một lớp học chuyên cái mà giúp bạn gioỉ ở thiết kế hệ thống quy mô, chịu lỗi và tính khả dụng cao  .
