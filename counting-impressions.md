@@ -1,87 +1,85 @@
-Design Counting Impressions at Scale
+Thiết kế đếm số lần xuất hiện ở quy mô 
 ===
 
 <!--ts-->
-* [Design Counting Impressions at Scale](#design-counting-impressions-at-scale)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế đếm số lần hiện thị ở quy mô ](#design-counting-impressions-at-scale)
+* [Báo cáo vân đề ](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cẩu lõi ](#core-requirements)
+   * [Các yêu cầu cấp cao ](#high-level-requirements)
+   * [Các yêu cầu vi mô ](#micro-requirements)
+* [Đầu ra ](#output)
+   * [Tài liệu thiết kế ](#design-document)
+* [Kết quả ](#outcome)
+   * [Bạn sẽ học ](#youll-learn)
+* [Chia sẻ và cảm ơn ](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo  cáo vấn đề 
+ Bất cứ khi nào 1 ad được hiển thị tới bạn trên bất kỳ website, nó được đếm như 1 lần xuất hiện. Hiểu đơn giản, bất kỳ khi nào những thứ được thể hiện tới bạn nó được xem như 1 lần xuất hiện trong phần phụ trợ. Chúng ta phải xây dựng 1 hệ thống để đếm số lần xuất hiện của 1 quảng cáo ở mức quy mô. 
+Đếm các lần xuất hiện không giới hạn ơt quảng cáo kinh doanh,nó tìm thấy các ứng dụng của nó trong mạng xã hội để đếm số lượt xem của 1 bài báo, của nền tảng video - số lượng lượt xem video, kỹ thuật tìm kiếm -  sô lần 1 trang được thể hiện trong kết quả tìm kiếm 
+Chúng ta phải xây dựng  hệ thống cái mà giúp chúng ta trả lời các câu này 1 các hiệu quả. 
 
-Whenever an ad is displayed to you on any website it is counted as an impression. In simple terms, anytime something is shown to you it is treated as an impression in the backend. We have to build a system that counts the impression an ad gets at scale.
+> Số lượng các cá nhân truy cập  trong lần 'n' của đơn vị thời gian cuối  
 
-Counting impressions in not just limited to Ad business, it finds its application in Social Media - to count number of views a post gets, Video Streaming - number of views a video gets,   Search Engines - number of times a page is shown in search results.
+Đây là 'n' sẽ được cung cấp như 1 đầu vào trong mỗi truy vấn đơn cái mà sẽ được kich hoạt trên hệ thống. 
 
-We have to build the system that helps us answer this query efficiently
-
-> The number of unique visitors in last `n` units of time
-
-Here's the `n` will be given as an input in every single query that will be fired on the system. 
-
-# Requirements
+# Các yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo vấn đề là thứ đẻ bắt đầu, hãy sáng tạo và đào sâu vào sản phẩm chi tiết  và thêm các ràng buộc và các đặc tính mà bạn nghĩ là nó quan trọng
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu lõi 
 
- - need real or near-realtime answers to the question - unique visitors in the time range
- - the values should not be aggregated (hourly, daily, weekly)
- - time range will be given on the fly
- - the count could be a close approximate
- - complete computation should wrap within a few seconds
- - the design should be storage efficient
+ - cần 1 câu trả lời thực hoặc gần thực cho câu hỏi - số lượt tham quan trong 1 vùng thời gian 
+ -  Giá trị không nên được tổng hợp lại ( giờ, ngày, tuần )
+ - vùng thời gian sẽ được cung cấp nhanh chóng 
+ - bộ đếm có thể là 1 số gần đúng. 
+ - hoàn thành tính toán nên gói trong vài giây 
+ - thiết kế nên được lưu trữ hiệu quả 
 
-##  High Level Requirements
+
+##  Các yêu cầu cấp cao 
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+ - Taọ các thành phần cao cấp thao tác với **tinh khả dụng cao**
+ - đảm bảo dữ liệu của bạn trong hệ thống là **bền vững** cho dù vấn đề gì xảy ra. 
+ - định nghĩa các hệ thống của bạn xử lý trong khi **phóng to** và **thu nhỏ quy mô**
+ - xây dựng hệ thống của bạn hiệu quả về kinh tế  và cung cấp 1 lý do tương tự 
+ - mô tả kế hoạch hiệu xuât của bạn  như nào cái mà giúp bạn đưa ra quyết định thiết kế tốt. 
+ - nghĩ về các dịch vụ khác tương tác với dịch vụ của bạn như nào. 
 <!--he-->
 
-##  Micro Requirements
+##  Yêu cầu vi mô 
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+ - đảm bảo dữ liệu trong hệ thống của bạn không bao giờ rơi vào trạng thái không tương thích 
+ - đảm bảo hệ thống của bạn **không có lỗi** ( nếu có thể)
+- Đảm bảo hệ thống của bạn không bị ảnh hưởng bới **khóa** nếu có hãy phát biểu nó ảnh hưởng như nảo.
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu thiết kế 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+Tạo 1 **tài liệu thiết kế** của hệ thống/đặc tính này cho rằng tất cả các quyết định thiết kế quan trọng,chi phí, thành phần, dịch vụ và thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn sẽ sử lý như nào ở quy mô và cái gì cuối cùng sẽ trở thành điểm nghẽn.
+Đừng tạo các thành phần không cần thiết cài mà chỉ làm cho thiết kế của bạn trông phức tap. Một thiết kế tốt **luôn đơn giản và lịch sự** . Một các tốt để nghĩ về nó là nếu bạn tạo các tiến trình/máy/cơ sở hạ tầng rieeng lẻ, và bạn sẽ phải tựu viết nó, bạn có muốn làm không?
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
 <!--de-->
 
-# Outcome
+# Kết quả 
 
-##  You'll learn
+##  Bạn sẽ học 
 
-- approximation algorithm for counting impression
-- counting efficiently optimizing time and space
+- Thuật toán xấp xỉ cho đếm lần xuất hiện 
+- Đếm hiệu quả tối ưu thời gian và không gian 
+
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
+Nếu bạn thấy hướng dẫn này hữu ích, hãy: 
+- Chia sẻ với bạn của bạn và các cộng sự 
+- đánh giá repo này  và giúp nó tiếp cận sâu rộng với khán giả. 
+- cho tôi 1 lời cảm ơn trên [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
-
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần của [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - Một lớp học chuyên gia giúp ban trở lên giỏi hơn ở thiết kế hệ thống quy mô lớn, chiu lỗi và tính khả dụng cao 
 <!--fe-->
