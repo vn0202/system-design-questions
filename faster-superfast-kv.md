@@ -1,104 +1,109 @@
-Design a faster Superfast KV Store
+Thiết kế 1 kho KV siêu nhanh hơn 
 ===
 
 <!--ts-->
-* [Design a faster Superfast KV Store](#design-a-faster-superfast-kv-store)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 kho lưu trữ siêu nhanh hơn )
+* [Báo cáo vấn đề ](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu cốt lõi ](#core-requirements)
+   * [Các yêu cầu cấp cao](#high-level-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra](#output)
+   * [Tài liệu thiết kế ](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gợi ý công nghệ ngăn xếp ](#recommended-tech-stack)
+      * [Ghi nhớ ](#keep-in-mind)
+* [Kết quả ](#outcome)
+   * [Bạn sẽ học ](#youll-learn)
+* [Chia sẻ và cảm ơn ](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề 
 
-We designed a [Superfast KV Store](https://github.com/relogX/system-design-questions/blob/master/superfast-kv.md), but can we go faster than this? Let's try to model something that is faster than this superfast DB.
+Chúng tôi đã thiết kế 1  [Superfast KV Store](https://github.com/relogX/system-design-questions/blob/master/superfast-kv.md), 
+nhưng chúng tôi có thể đi nhanh hơn điều này không? Hãy cố gắng thử các mô hình cái mà nhanh hiwn DB siêu nhanh này. 
 
-Design a single-node persistent KV Store that supports `GET`, `PUT` and `DEL` operations and it utilizes hardware (disk, RAM) optimally. The response time for all the 3 operations should be as low as possible and complexity of operations should be `O(1)`. It is okay for this KV store to not support infinite number of keys given it is bound to a single node, but make sure you maximize the number of keys a single node can hold.
+Thiết kế 1 lưu trữ KV đơn vĩnh viễn cái mà hỗ trợ các thao tác  `GET`,`PUT`, và `DEL`  và nó có sử dụng phần cứng (ổ đĩa,RAM) tùy chọn. Thời gian hồi đáp cho cả 3 thao tác trên nên thấp nhất có thể và độ phức tạp của các thao tác nên là `0(1)`. Nó ổn cho lưu trữ KV này để không hỗ trợ các số lượng khóa vô hạn vì nó ràng buộc với 1 nút đơn duy nhất, nhưng đảm bảo rằng bạn tối đa hóa số khóa mà 1 nút đơn có thể giữ.
 
-> Note: It is okay if your storage engine cannot support very large number of keys.
+> Note:Nó là ổn nếu lưu trữ của bạn không thể hỗ trợ số lượng lớn keys.
 
-# Requirements
+# Các yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo vấn đề là cái để bắt đầu, hãy sáng tạo và đào sâu vào chi tiết sản phẩm và thêm các ràng buộc và các đặc tính bạn nghĩ nó quan trọng *
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu cốt lõi 
 
- - should be able to `GET`, `PUT`, `DEL` on a key
- - all operations should happen as fast as possible with complexity of `O(1)`
- - this KV store is not distributed and will run on just a single node
+- Nên có thể để `GET`,`PUT`,`DEL` trên 1 phím 
+- Tất cả các thao tác nên xẩy ra nhanh nhát có thể với độ phức tạp là `0(1)`
+- Lưu trữ KV này không phân tán và sẽ chạy trên chỉ 1 nút đơn. 
 
-##  High Level Requirements
+
+##  Các yêu cầu cấp cao.
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+- Xây dựng các thành phần cao cấp của bạn thao tác với **tính khả dụng cao** 
+- Đảm bảo rằng dữ liệu của bạn là **bền vững** dù vấn đề gì xảy.
+- Định nghĩa cách hệ thống của bạn sẽ cư xử trong khi **mở rộng** và **thu nhỏ** quy mô. 
+- Làm cho hệ thống của bạn **hiệu quả về chi phí** và cung cấp 1 lý do tương tự.
+- Mô tả **kế hoạch hiệu suất của bạn** cái giúp bạn có 1 quyết định thiết kế đúng.
+- Nghĩ về cách các dịch vụ khác sẽ tương tác với dịch vụ của bạn. 
+
 <!--he-->
 
-##  Micro Requirements
+##  Các yêu cầu vi mô 
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Đảm bảo dữ liệu của bạn sẽ **không bao giờ** rơi vào trạng thái không nhất quán. 
+- Đảm bảo hệ thống của bạn sẽ **không có lỗi** (nếu có thể)
+- Đảm bảo rằng thông lượng của hệ thống của bạn sẽ không bị ảnh hưởng bởi khóa **locking**, nếu có, hãy phát biểu nó ảnh hưởng như nào.
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu thiết kế 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+Tạo 1 **tài liệu thiết kế** của hệ thống/đặc tính này phát biểu rằng tất cả các quyết định thiết kế quan trọng, các chi phí đánh đổi, các thành phần các dịch vụ và các thông tin liên lạc. Cũng chỉ cách mà hệ thống của bạn xử lý ỏ quy mô và cái gì cuối cùng sẽ trỏ thành điểm nghẽn.
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+**Đừng** tạo ra các thành phần không cần thiêt, cái mà chỉ làm cho thiết kế của bạn trông phức tạp hơn. Một thiêt kế tốt **luôn đơn giản và lịch sự**. Một cách tốt để nghĩ về nó là nếu bạn tạo ra các tiến trình/máy/cơ sở hạ tầng riêng lẻ và bạn phải tự viết mã cho nó. Bạn vẫn muốn làm? 
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
-To understand the nuances and internals of this system, build a prototype that
+Để hiểu các  sắc thái và nội dung bên trong của hệ thống, xây dựng 1 nguyên mẫu: 
+- Khai triển thiêt kế của bạn và đo lường hiệu năng của `GET`,`PUT` và `DEL`
 
-- implement your design and measure the `GET`, `PUT`, `DEL` performance
 
-###  Recommended Tech Stack
 
-This is a recommended tech-stack for building this prototype
+###  Gợi ý công nghệ stack
+Đây là gợi ý công nghệ stack cho xây dựng nguyên mẫu này:
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, C++, Python|
 
-###  Keep in mind
+###  Ghi nhớ 
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+Có những cạm bẫy phổ biến bạn cần nhớ khi xây dựng nguyên mẫu này: 
 
-- your storage engine will always be bound to single node
-- it is okay for your engine to not support very large number of keys
+- Công cụ lưu trữ cuả bạn luôn luôn ràng buộc với 1 nút đơn.
+- Nó ổn cho công cụ của bạn không hỗ trợ số lượng lớn keys
 
-# Outcome
 
-##  You'll learn
+# Kết quả 
 
-- designing storage engine
-- utilizing every ounce of your hardware
+##  Bạn sẽ học 
+
+- Thiết kế 1 công cụ lưu trữ.
+- Sử dụng tất cá các phân phối ổ cứng của bạn. 
+
+
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
+Nếu bạn thấy hướng dẫn này hữu ích, hãy: 
+- Chia sẻ nó với bạn bè và cộng sự của bạn.
+- Đánh giá repo này để giúp nó tiếp cận với đônh đảo thính giả 
+- CHo tôi 1 lời cảm ơn trên [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
-
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần của  [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) -  Một lớp học tài năng nơi giúp bạn trở nên xuất sắc  ở thiết kế hệ thống quy mô lớn, chịu lỗi và tính khả dụng cao .
 <!--fe-->
