@@ -1,103 +1,108 @@
-Design a Remote File Sync Service
+Thiết kế một dịch vụ đồng bộ file từ xa 
 ===
 
 <!--ts-->
-* [Design a Remote File Sync Service](#design-a-remote-file-sync-service)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 dịch vụ quản lý file từ xa ](#design-a-remote-file-sync-service)
+* [Báo cáo vấn đề ](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu lõi ](#core-requirements)
+   * [Các yêu cầu cấp cao ](#high-level-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra ](#output)
+   * [Tài liệu thiết kế ](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gợi ý công nghệ trên ngăn stack ](#recommended-tech-stack)
+      * [ghi nhớ ](#keep-in-mind)
+* [Kết quả ](#outcome)
+   * [Bạn sẽ học ](#youll-learn)
+* [Chia sẻ và cảm ơn ](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo trạng thái 
 
-Designing a file sync service in which a user can upload a file to the cloud and it gets sync across all of his/her devices.
+Thiết kế 1 dịch vụ đồng bộ file cái mà người dùng có thể upload 1 file tới cloud và nó nhận đồng bộ cùng với tất cả các thiết bị của họ. 
 
-> The core of this system finds its application in messaging apps as well.
 
-# Requirements
+
+>Lõi của hệ thống này là tìm các ứng dung của nó trong các ứng dụng tin nhắn. 
+
+# Các yêu cầu 
+
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+
+*Báo cáo vấn đề là cái để bắt đầu, hãy sáng tạo và đào sâu vào trong chi tiết sản phẩm và thêm các ràng buộc và các đặc tính bạn nghĩ nó sẽ quan trọng.*
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu lõi.
+- Đồng bộ tất cả các file cùng với tất cả các thiết bị của người dùng. 
+- 1 file có thể có dung lượng cao nhất 4GB 
+- Việc upload và tải nên hiệu quả và có thể tiếp tục 
+- Băng thông của người dùng là quan trọng, vì vậy hãy hiệu quả. 
 
- - Sync all the files across all the devices of the user
- - A file could be at max 4GB big
- - The upload and downloads should be efficient and resumable
- - User's bandwidth is critical, so be efficient.
 
-##  High Level Requirements
+##  Các yêu cầu cấp cao 
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+- Tạo ra các thành phần cấp cao thao tác với tính khả dụng cao. 
+- Đảm bảo rằng dữ liệu trong hệ thống của bạn là *bền vững** cho dù vấn đề gì xảy ra. 
+- Định nghĩa cách hệ thống của bạn sẽ xử lý khi **mở rộng** và **thu nhỏ** quy mô.
+- làm cho hệ thống của bạn **hiệu quả về chi phí** và cung cấp lý do tương tự. 
+- Mô tả **kế hoạch hiệu suất của bạn** cái mà giúp bạn có quyết định thiết đúng đắn. 
+- Nghĩ về cách hệ thống của bạn sẽ tương tác với các dịch vụ khác. 
 <!--he-->
 
-##  Micro Requirements
+##  Các yêu cầu lõi.
+
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Đảm bảo dữ liệu trong  hệ thống của bạn **không bao giờ** rơi vào trạng thái không nhất quán. 
+- Đảm bảo hệ thống của bạn là **không bao giờ có lỗi**( nếu có thể )
+- Đảm bảo rằng thông lượng của hệ thống của bạn là không bị ảnh hưởng bới **khóa**, nếu có hãy phát biểu nó ảnh hưởng như nào. 
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+Thiết kế **tài liệu thiết kế** của hệ thống/đặc tính này phát biểu rằng tất cả các quyết định thiết kế quan trọng, sự đánh đổi, thành phần, dịch vụ và các thông tin liên lạc. Cũng chỉ cách mà hệ thống của bạn sẽ xử lý ở quy mô và cái gì cuối cùng sẽ trở thành điểm nghẽn.
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+**Đừng** thiết kế các thành phần không quan trọng, cái mà chỉ làm cho hệ thống của ban trông phức tạp. Một thiết kế tốt **luôn luôn đơn giản và lịch sự**. Một cách tốt để nghĩ về nó là nếu bạn tạo ra các máy /tiến trình/ cơ sở hạ tầng cho mỗi thành phần  và bạn phải tự code nó, bạn vẫn muốn làm chứ.
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
+Để hiểu các sắc thái và nội dung của hệ thống này, hãy xây dựng 1 nguyên mẫu. 
+- thực hiện liên tục upload và download 
+- Xác định và chia sẻ hiệu quả thay đổi với các thiết bị khác. 
 
-To understand the nuances and internals of this system, build a prototype that
 
-- does resumable upload and download
-- effficiently identifies and shares changes with other devices
+###  Gới thiệu công  nghệ ngăn xếp 
+Đây là gợi ý công nghệ stack cho xây dựng nguyên mẫu này. 
 
-###  Recommended Tech Stack
 
-This is a recommended tech-stack for building this prototype
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, C++|
 
-###  Keep in mind
+###  Hãy ghi nhớ.
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+Có những cạm bẫy phổ biến bạn cần nhớ khi xây dựng nguyên mẫu này: 
+Chuyển dịch file $G trong 1 lần gọi dễ gián đoạn 
 
-- transferring 4GB file in one call is prone to disruptions
 
-# Outcome
 
-##  You'll learn
+# Kết quả 
 
-- designing resumable uploads and downloads
-- efficiently communicate changes and updates across clients
+##  Bạn sẽ học: 
+
+- Thiết kế tải lên và tải xuống liên tục 
+- Các thay đổi và cập nhật tương tác hiệu quả giữa các máy khách. 
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn.
+Nếu bạn thấy hướng dẫn này co ích, hãy: 
+- chia sẻ nó với dồng nghiệp và bạn bè của bạn. 
+- Đánh giá repo này và giúp nó tiếp cận với đông đảo thính giả 
+- Cho tôi 1 lời cảm ơn trên Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
-
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần của  [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) -  Một lớp học master nơi giúp bạn trở nên tốt hơn ở thiết kế hệ thống quy mô lớn, chịu lỗi và có tính khả dụng cao  
 <!--fe-->
