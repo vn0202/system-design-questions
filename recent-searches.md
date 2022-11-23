@@ -1,75 +1,78 @@
-Design Recent Searches
+Thiết kế tìm kiếm gần đây 
 ===
 
 <!--ts-->
-* [Design Recent Searches](#design-recent-searches)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế tìm kiếm gần đây ](#design-recent-searches)
+* [Báo cáo vấn đề ](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu lõi](#core-requirements)
+   * [Các yêu cầu cấp cao ](#high-level-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra](#output)
+   * [Tài liệu thiết kế ](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gợi ý công nghệ stack ](#recommended-tech-stack)
+      * [Ghi nhớ ](#keep-in-mind)
+* [Kết quả](#outcome)
+   * [Bạn sẽ học ](#youll-learn)
+* [Chia sẻ  và cảm ơn ](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề 
 
-When a user taps on the search bar we have to show the last 10 unique recent searches made by him/her. The time for the service to respond should be as low as possible given that user upon tapping the search bar would not want to wait for recent searches to load.
+Khi người dùng chạm vào thanh tìm kiếm chúng ta phải show ít nhất 10 kết quả tìm kiếm gần đây nhất của anh ấy. Thời gian cho dịch vụ này để đáp ứng nên nhanh nhất có thể vì người dùng không muốn chờ cho kết quả tìm kiếm gần đây load.
 
-Design the ingestion pipeline, the core API service, caching , delegation if required and decide on the high level dataflow.
+Thiết kế đường dãn nhập, dịch vụ lõi API, bộ nhớ đệm, ủy quyền nếu cần và quyết định trên luồng dữ liệu cao.
 
-# Requirements
+# Các yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo vấn đề là cái mà để bắt đầu, hãy sáng tạo và đào sâu vào chi tiết sản phẩm và thêm các ràng buộc và các đặc tính mà bạn nghĩ nó quan trọng.*
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu lõi  
 
- - fetch last 10 unique recent searches made by the user
- - response time of the API should be < 10ms
+- tìm nạp 10 kết quả duy nhất gần dây được thực hiện bởi người dùng 
+- Thời gian hồi đáp cho API nên nhỏ hơn < 10ms
 
-##  High Level Requirements
+ 
+##  Các yêu cầu cấp cao 
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+- xây dựng các thành phần cao cấp thao tác với tính khả dụng cao 
+- Đảm bảo dữ liệu trong hệ thống của bạn là **bền vững** cho dù vấn đề gì xẩy ra 
+- Định nghĩa cách mà hệ thống của bạn sẽ xử lý khi phóng to và thu nhỏ quy mô 
+- làm cho hệ thống của bạn **hiệu quả về chi phí** và cung cấp 1 lý do tương tự 
+- mô tả **kế hoạch hiệu suất của bạn** cái mà giúp bạn có quyết định thiết kế đúng 
+- Nghĩ về cách mà các dịch vụ khác sẽ tương tác với dịch vụ của bạn 
+
 <!--he-->
 
-##  Micro Requirements
+##  Các yêu cầu vi mô 
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Đảm bảo dữ liệu trong hệ thống của bạn là **không bao giờ** rơi vào trạng thái không nhất quán.
+- Đảm bảo hệ thống của bạn là không có lỗi (nếu có thể )
+- Đảm bảo rằng thông lượng của hệ thống của bạn sẽ không bị ảnh hưởng bới khóa, nếu có hãy phát biểu nó ảnh hưởng như nào. 
 <!--me-->
 
 # Output
 
-## Design Document
+## Tài liệu thiết kế 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+Tạo 1 **tài liệu thiết kế** của hệ thống/đặc tính này phát biểu rằng tất cả các quyết định thiết kế, các đánh đổi, các thành phần , các dịch vụ và thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn sẽ xử lý như nào ở quy mô lớn và cái gì cuối cùng sẽ trở thành điểm nghẽn 
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+**Đừng** tạo ra các thành phần không cần thiết cái mà chỉ làm cho hệ thống của bạn trông phức tạp hơn. Một thiết kế tôt luôn **đơn giản và lịch sự**. Một cách tốt để nghĩ về nó là nếu bạn tạo ra các tiến trình/máy/cơ sở hạ tầng cho từng thành phần và bạn sẽ phải tự viết mã cho nó. Bạn vẫn muốn viết? 
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
-To understand the nuances and internals of this system, build a prototype that
+Để hiểu các sắc thái và nội dung bên trong hãy xây dựng nguyên mẫu: 
 
-- prototype the entre recent searches flow on local machine
+- Nguyên mẫu luồng thông tin tìm kiếm gần đây trên máy cục bộ 
 
-###  Recommended Tech Stack
+###  Gợi ý công nghệ ngăn xếp 
 
-This is a recommended tech-stack for building this prototype
+Đây là gợi ý công nghệ stack cho xây dựng nguyên mẫu này
+
 
 |Which|Options|
 |-----|-----|
@@ -77,27 +80,25 @@ This is a recommended tech-stack for building this prototype
 |Database|decide|
 |Caching|decide|
 
-###  Keep in mind
+###  Ghi nhớ 
+Có những cạm bẫy phổ biến cái mà bạn nên ghi nhớ trong đầu trong khi xây dựng nguyên mẫu này 
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+- Ủy quyền bất cứ khi nào có thể 
+# Kết quả 
 
-- delegate whenever possible
+##  Bạn sẽ học 
+- Tầm quan trọng của ủy quyền 
+- Thiết kế luồng dữ liệu 
+- thiết kế 1 dịch vụ với SLA < 10ms
 
-# Outcome
-
-##  You'll learn
-
-- importance of delegation
-- designing data flow
-- designing a service with SLA < 10ms
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+- Nếu bạn thấy hướng dẫn này hữu ích, hãy 
+- - chia sẻ hướng dẫn này với bạn bè và cộng sự của bạn 
+- đánh giá repo này và giúp nó tiếp cận với nhiều người hơn 
+- Cho tôi 1 lời cảm ơn trên [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Đây là 1 phần trong hướng dẫn  [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - Một lớp học cao nơi giúp bạn sẽ trở lên giỏi ở thiết kế hệ thống quy mô lớn, chịu lỗi và tính khả dụng cao 
 <!--fe-->
