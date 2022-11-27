@@ -1,100 +1,106 @@
-Design Who's Near Me Service
+Thiết kế dịch vụ ai ở cạnh tôi
 ===
 
 <!--ts-->
-* [Design something awesome](#design-something-awesome)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 cái gì đó tuyệt vời](#design-something-awesome)
+* [Báo cáo vấn đề](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu lõi](#core-requirements)
+   * [Các yêu cầu cấp cao](#high-level-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra ](#output)
+   * [Tài liệu thiết kế](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gới thiệu công nghệ stack](#recommended-tech-stack)
+      * [Ghi nhớ](#keep-in-mind)
+* [Đầu r](#outcome)
+   * [Bạn sẽ h](#youll-learn)
+* [Chia sẻ và cảm ](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề 
 
-Given `k` kilometers as an input, find all the people who are within `k` kilometers from you, efficiently.
+Cung cấp `k` km như 1 đầu vào, tìm tất cả những người người mà trong phạm vi `k` từ bạn, một cách hiệu quả.
 
-> The core of this system can be used in locating stores near me, landmarks near me, nearby friends, electric vehicles near me, cars near me, etc.
 
-# Requirements
+>Cốt lõi của hệ thống này có thể được sử dụng trong lưu trữ vị trí gần tôi, đánh dấu điểm gần tôi, cạnh bạn bè, phương tiện điện gần tôi, oto gần tôi, ...
+
+# Các yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo vấn đề thường là cái để bắt đầu, hãy sáng tạo và đào sâu vào chi tiết sản phẩm và thêm các ràng buộc và đặc tính bạn nghĩ nó quan trọng.*
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu cốt lõi
 
- - answer the nearby location query efficiently
- - the number people using the app are 1 million
+- trả lời các truy vấn vị trí gần một cách hiệu quả.
+- số người sử dụng ứng dụng là 1 triệu người.
+ 
 
-##  High Level Requirements
+##  Các yêu cầu cấp cao 
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+- Tạo ra các thành phần cao câp của bạn thao tác với **tính khả dụng cao**
+- Đảm bảo dữ liệu trong hệ thống của bạn là **bền vững**, cho dù bất kỳ vấn đề gì xảy ra.
+- Định nghĩa cách mà hệ thống của bạn sẽ cư sử trong khi **mở rộng** và **thu nhỏ** quy mô. 
+- Làm cho hệ thống của bạn **hiệu quả về kinh tế** và cung cấp 1 lý do tương tự.
+- MÔ tả **kế hoạch hiệu suất của bạn** cái mà giúp bạn có quyết định thiết kế tôt.
+- Nghĩ về các dịch vụ khác sẽ tương tác với các dịch vụ khác.
+ 
 <!--he-->
 
-##  Micro Requirements
+##  Các yêu cầu vi mô 
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Đảm bảo dữ liệu của bạn không bao giờ rơi vào trạng thái không nhất quán.
+- Đảm bảo hệ thống của bạn là **không có lỗi**(nếu có thể)
+- Đảm bảo rằng thông lượng của hệ thống của bạn là không bị ảnh hưởng bởi khóa, nếu có, hãy phát biểu nó ảnh hưởng như  nào.
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu thiết kế 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+Tạo ra 1 **tài liệu thiết kế** của hệ thống/đặc tính này cho rằng tất cả các thiết kế quan trọng, đánh đổi, các thành phần, các dịch vụ và thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn sẽ xử lý như nào ở quy mô lớn và cái gì cuối cùng sẽ trở thành điểm nghẽn.
+ **đừng** tạo ra các thành phần không cần thiết, cái chỉ làm cho thiết kế của bạn trong phức tạp. Một thiết kế tốt luôn **đơn giản và lịch sự**. Một cách  tốt nhất để nghĩ về nó là nếu bạn tạo ra các thành phần/tiến trình/máy riêng cho từng thành phần và bạn sẽ phải tự viết mã cho nó, bạn có muốn làm nó nữa không?
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
-To understand the nuances and internals of this system, build a prototype that
+Để hiểu các săc thái và nội dung bên trong của hệ thống này, hãy xây dựng nguyên mẫu: 
+- Triển khai các thuật toán /tiếp cận cái mà bạn nghĩ tới cục bộ
 
-- implement the algorithm/approach that you think of locally
+
 
 ###  Recommended Tech Stack
 
-This is a recommended tech-stack for building this prototype
+Đây là gợi ý công nghệ stack cho xây dựng nguyên mẫu này.
+
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, C++|
 
-###  Keep in mind
+###  Ghi nhớ 
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+Có những cạm bẫy phổ biến cái mà bạn cần ghi nhớ trong khi xây dựng nguyên mẫu này: 
+- Bạn không thể thực thi tìm kiếm hiệu quả trong 20 chuyến bay mà không cần đi qua tất cả các diểm đến.
 
-- You cannot perform efficient search in 2D plane without going through all the points
 
-# Outcome
 
-##  You'll learn
+# Kết quả 
 
-- plaving with spatial data
-- algorithm that powers geo location queries
+
+##  Bạn sẽ học 
+- Làm việc với dữ liệu không gian 
+- Thuật toán cái mà có các truy vấn vị trí địa lý mạnh mẽ.
+
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
+Nếu bạn thấy hướng dẫn này hữu ích: 
+- chia sẻ nó với bạn bè và cộng sự của bạn 
+- đánh giá repo này  và giúp nó tiếp cận sâu rộng với thính giả.
+- cho tôi 1 lời cảm ơn trên [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
-
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần của  [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - Một lớp học chuyên sâu giúp bạn trở nên giỏi ở thiết kế hệ thống quy mô lớn, chịu lỗi và tính khả dụng cao.
 <!--fe-->
