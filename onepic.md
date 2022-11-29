@@ -1,26 +1,28 @@
-Design OnePic
+Thiết kê 1 bức ảnh 
 ===
 
 <!--ts-->
-* [Design OnePic](#design-onepic)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 bức ảnh](#design-onepic)
+* [Báo cáo vấn đề ](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu lõi ](#core-requirements)
+   * [Các yêu cầu cấp cao ](#high-level-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra ](#output)
+   * [Tài liệu thiết kế](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Công nghệ  Stack](#recommended-tech-stack)
+      * [Ghi nhớ](#keep-in-mind)
+* [Kết quả ](#outcome)
+   * [Bạn sẽ học](#youll-learn)
+* [Chia sẻ và cảm ơn](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề 
 
-OnePic is a product that makes it easy to use one profile picture everywhere. The product let's you have one unique URL that when any website uses under `img` tag renders the image on the page. THe product also let's you upload multiple pictures and set one of them as active.
+OnePic là 1 sản phẩm cái mà nó làm cho dễ dàng để sử dụng 1 bức ảnh ở mọi nơi. Sản phẩm để cho bạn có 1 URL duy nhất cái mà bất kỳ website nào sử dụng  dưới `img` tag thể hiện hình ảnh trên trang. Sản phẩm cũng đê cho bạn cập nhật nhiều bức ảnh và thiết lập 1 trong số chúng là active.
+
+
 
 ```
 <img src="https://onepic.relog.in/arpit" />
@@ -30,83 +32,95 @@ The OnePic URL for user `arpit` will be `https://onepic.relog.in/arpit` which wh
 
 ![Relog OnePic](https://user-images.githubusercontent.com/4745789/139574973-6bd4202d-4256-44a1-bbbd-271f9c3b745b.png)
 
-# Requirements
+# Các yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo vấn đề là cái để bắt đầu,  hãy sáng tạo và đào sâu vào chi tiết sản phẩm và thêm các ràng buộc và các đặc tính bạn nghĩ nó sẽ quan trọng*
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu lõi 
 
- - user to manage **multiple** profile pictures and mark one as **active**
- - one unqiue URL used by all the websites to **render** the user's profile picture
- - **50000** photo uploads per minute
- - read to write ratio **100000:1**
+- Người dùng quản lý **nhiều** ảnh cá hồ sơ và đánh dấu 1 cái là **active** 
+- Một url duy nhất được sử dụng bởi tất cả các website để **thể hiện** ảnh hồ sơ của người dùng 
+- **50000** bức ảnh upload trên phút 
+- Đọc với viết tỷ lệ: **1000000:1**
 
-##  High Level Requirements
+
+##  Các yêu cầu cấp cao 
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+- Làm cho các thành phần cấp cao của hệ thống của bạn tương tác với **tính khả dụng cao**
+- Đảm bảo dữ liệu trong hệ thống của bạn là **bền vững** cho dù bất kỳ vấn đề gì xảy ra.
+- Định nghĩa cách mà hệ thống của bạn sẽ cư xử trong khi **mở rộng** và **thu nhỏ** quy mô.
+- Làm cho hệ thống của bạn **hiệu quả về chi phí** và cung cấp 1 lý do tương tự 
+- Mô tả **kế hoạch hiệu suất** cái mà giúp bạn có quyết định thiết kế tốt.
+- Nghĩ về cách các dịch vụ khác sẽ tương tác với dịch vụ của bạn 
 <!--he-->
 
-##  Micro Requirements
+##  Các yêu cầu vi mô
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- đảm bảo dữ liệu trong hệ thống của bạn là không bao giờ rơi vào trạng thái không nhất quán 
+- Đảm bảo hệ thống của bạn là **không có lỗi** (nếu có thể)
+- Đảm bảo rằng thông lượng của hệ thống không bị ảnh hưởng bởi khóa, nếu có hẫy phát biểu nó ảnh hưởng như nào.
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu thiết kế 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+Tạo ra 1 **tài liệu thiết kế** của hệ thống/đặc tính này phát biểu rẳng tẩt cả các quyêt định thiết kế quan trọng, các đánh đổi, các thành phần, các dịch vụ và thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn sẽ xử lý như nào ở quy mô lớn và cái gì cuối cùng sẽ thành điểm nghẽn.
+
+**Đừng** tạo ra các thành phần không cần thiết, cái mà chỉ làm cho thiết kế của bạn trông phức tạp. Một thiết kê tốt luôn **đơn giản và lịch sự**. Một cách tốt để nghĩ về nó là nếu bạn thiết kế các tiến trình/các máy/các cơ sở hạ tầng cho từng thành phần và bạn sẽ phải tự viết mã cho nó.Bạn vẫn muốn làm ?
+
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
-To understand the nuances and internals of this system, build a prototype that
+Để hiểu các sắc thái và nội dung của hệ thống này, hẫy xây dựng nguyên mẫu: 
 
-- built a simple static site server that serves user uploaded images
-- CRUD to manage profile pictures and marking one active
-- render the active profile picture whenever the image is requested through the URL
+- xây dựng 1 máy chủ trang tĩnh đơn giản cái mà phục vu người dùng cập nhật ảnh 
+- CRUD để quản lý ảnh hồ sơ và đánh dấu cái active 
+- thể hiện ảnh hồ sơ đang hoạt động bất kể khi nào bức ảnh được yêu cầu thông qua URL 
+- 
 
-###  Recommended Tech Stack
 
-This is a recommended tech-stack for building this prototype
+
+###  Gợi ý công nghệ stack 
+
+Đây là 1 gợi ý công nghệ stack cho xây dựng nguyên mẫu này 
+
+
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, NodeJS, C++|
 |Database|Pick your favourite|
 
-###  Keep in mind
+###  Ghi nhớ 
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+Có những cạm bẫy phổ biến cái mà bạn nên nhớ trong khi xây dựng nguyên mẫu này :
 
-- serving images through API server is simple than it looks
+- phục vụ ảnh thông qua API máy chủ thì dễ hơn tưởng tượng.
 
-# Outcome
 
-##  You'll learn
 
-- static file server
-- read heavy systems serving static content
-- database schema design
+# Kết qủa 
+
+
+##  Bạn sẽ học 
+
+- máy chủ file tĩnh 
+- Đọc các hệ thống lớn phục vụ file tĩnh 
+- thiết kế lược đồ CSDL
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+Nếu bạn tìm thấy hướng dẫn này hữu ích, hãy:
 
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+- Chia sẻ nó với bạn bè và cộng sự của bạn 
+- Đánh giá repo này và giúp nó tiếp cận với đông đảo thính giả 
+- Cho tôi 1 lời cảm ơn trên  [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+
+Hướng dẫn này là 1 phần của [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - Một lớp học chuyên gia giúp bạn trở nên giỏi ở  thiết kế hệ thống quy mô lớn, chịu lỗi và tính khả dụng cao 
 <!--fe-->

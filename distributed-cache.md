@@ -82,7 +82,7 @@ Tạo 1 **tài liệu thiết kế** của hệ thống/đặc tính này cho r�
 - 1 nut bộ nhớ đệm đơn cơ bản với hỗ trợ không bị khóa đồng thời 
 - Thực hiện tải thử  và độ chuẩn trễ 
 
-###  Recommended Tech Stack
+###  Gợi ý công nghệ ngăn xếp
 
 Đây là công nghệ ngăn xếp web được gợi ý cho nguyên mẫu này. 
 |Which|Options|
