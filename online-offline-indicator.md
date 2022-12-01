@@ -1,83 +1,92 @@
-Design an Online Offline Indicator
+Thiết kế 1 trình báo chỉ số trực tuyến ngoại tuyên 
 ===
 
 <!--ts-->
-* [Design an Online Offline Indicator](#design-an-online-offline-indicator)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [High Level Requirements](#high-level-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-      * [Keep in mind](#keep-in-mind)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 trình báo chỉ số trực tuyến ngoại tuyến](#design-an-online-offline-indicator)
+* [Báo cáo vấn đề](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu lõi ](#core-requirements)
+   * [Các yêu cầu cấp cao ](#high-level-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra ](#output)
+   * [Tài liệu thiết kế ](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gợi ý công nghệ stack ](#recommended-tech-stack)
+      * [Ghi nhớ](#keep-in-mind)
+* [Kết quả](#outcome)
+   * [Bạn sẽ học ](#youll-learn)
+* [Chia sẻ và cảm ơn ](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề 
 
-Imagine you are building a chat application in which a user can chat with any other user, provided they are both connected. For a user to initiate the chat, it is always helpful if we show who all are online.
+Tưởng tượng bạn đang xây dụng 1 ứng dụng chat trong đó người dùng có thể chat với bất kỳ người dùng nào, cung cấp họ kết nối. Cho 1 người dùng khởi tạo  chat, nó luôn luôn hữu ích nếu chúng ta thể hiện xem ai đang online
 
-In this assignment, let's design a system that indicates who all are online at the moment. The micro-problem statement is as simple as answering the question - Given a user, return if he/she is online or not.
+
+Trong hướng dẫn này, hãy thiết kế 1 hệ thông cái mà chỉ rõ những ai đang online bây giờ. Báo cáo vấn đề vi mô là cái đơn giản như câu trả lời cho câu hỏi - Cung cấp 1 người dùng, trả về cô ấy/ anh ấy đang online hay không 
 
 ![Designing Online Offline Indicator](https://user-images.githubusercontent.com/4745789/138017480-1f7c30ce-50f2-4a50-99b5-1cf7f0778caa.png)
 
-# Requirements
+# Các yêu cầu 
+
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo vấn đề là cái để bắt đầu, hãy sáng tạo và đào sâu vào chi tiết sản phẩm và thêm các đặc tính sản phẩm và thêm các ràng buộc bạn nghĩ nó quan trọng*
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu lõi 
 
- - should update online status of a user within **10 seconds** of user coming online
- - can be **lineant** in marking a user offline
- - should scale for **5 million** active users at any given moment
- - a user should see accurate status of any other user, **eventually**
+- Nên cập nhật trạng thái  online của người dùng trong **10 giây** của người dùng online
+- Có thể **lineant** khi đánh dấu người dùng ngoại tuyến.
+- Nên mở rộng quy mô **5 trịệu** người dùng hoạt động mỗi giây 
+- Người dùng nên nhìn thấy chính xác trạng thái của bất kỳ người dùng nào **cuối cùng**
 
+ 
 
-##  High Level Requirements
+##  Các yêu cầu cấp cao 
 <!--hs-->
-- make your high-level components operate with **high availability**
- - ensure that the data in your system is **durable**, not matter what happens
- - define how your system would behave while **scaling-up** and **scaling-down**
- - make your system **cost-effective** and provide a justification for the same
- - describe how **capacity planning** helped you made a good design decision 
- - think about how other services will interact with your service
+
+- Làm cho các thành phần cấp cao hệ thống của bạn tương tác với **tính khả dụng cao**
+- Đảm bảo dữ liệu trong hệ thống của bạn là **bền vững**, cho dù vấn đề gì xẩy ra. 
+- Định nghĩa cách mà hệ thống của bạn sẽ cư xử trong khi **mở rộng** và **thu nhỏ** quy mô.
+- Làm cho hệ thống của bạn **hiệu qủa về chi phí** và cung cấp 1 lý do tương tự 
+- Mô tả kê hoạch hiệu suất của bạn, cái mà giúp bạn có 1 quyêt định thiêt kế đúng đắn.
+- Nghĩ về cách mà các dịch vụ khác sẽ tương tác với dịch vụ của bạn 
+
 <!--he-->
 
-##  Micro Requirements
+##  Các yêu cầu vi mô 
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+
+- Đảm bảo dữ liệu trong hệ thống của bạn là **không bao giờ** rơi vào trạng thái không nhất quán.
+- Đảm bảo hệ thống của bạn là **không có lỗi** (nếu có thể )
+- Đảm bảo rằng thông lượng hệ thống của bạn không bị ảnh hưởng bởi khóa và nếu có hãy phát biểu nó ảnh hưởng như nào
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu thiết kế 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+ Tạo 1 **tài liệu thiết kê** của hệ thống/đặc tính này phát biểu rằng tất cả các quyết định thiết kế quan trọng, các đánh đổi, các thành phần, các dịch vụ và các thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn sẽ xử lsy như nào ở quy mô lớn và cái gì cuối cùng sẽ trở thành điểm nghẽn. 
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+**Đừng** tạo ra các thành phần không cần thiết, cái mà chỉ làm cho thiết kế của bạn trông phức tạp. Một thiết kế tốt luôn **đơn giản và lích sự**. Một cách tốt để nghĩ về nó là nếu bạn tạo ra các máy/tiến trình/ cơ sở hạ tầng riêng cho từng thành phần và bạn sẽ phải viết mã cho nó. Bạn vẫn muốn viết? 
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
-To understand the nuances and internals of this system, build a prototype that
+Để hiểu các sắc thái và nội dung của hệ thống nãy, hãy xây dựng nguyên mẫu: 
+- Hiển thị danh sách người dùng 
+- Thể hiện nếu 1 người dùng cụ thể đang hoạt động hay ofline 
+- Danh sách người dùng là được nhóm để người dùng online được thể hiện đầu tiên và sau đó là các người dùng offline
+- Nếu người dùng offline, cũng hiển thị **offline cách đây x phút** 
+- 
 
-- shows a list of users
-- shows if a particular user is online or offline
-- the user list is grouped such that the online users are shown first and then the offline ones
-- if the user is offline, also show "was online X mins ago"
 
-###  Recommended Tech Stack
 
-This is a recommended tech-stack for building this prototype
+###  Gợi ý công nghệ stack 
+
+Đây là gợi ý công nghệ stack cho xây dựng nguyên mẫu này 
+
 
 |Which|Options|
 |-----|-----|
@@ -85,30 +94,33 @@ This is a recommended tech-stack for building this prototype
 |Database|MySQL, MongoDB, or any one that you like|
 |Library|SocketIO, for realtime status update|
 
-###  Keep in mind
+###  Ghi nhớ 
 
-These are the common pitfalls that you should keep in mind while you are building this prototype
+Có những cạm bẫy phổ biến bạn cần ghi nhớ khi xây dựng nguyên mẫu này: 
 
-- IO calls in NodeJS are asynchronous
-- if you are broadcasting the status update, do not do it to "all" the users  
+- Các cuộc gọi IO trong NodeJS là bất đồng bộ 
+- Nếu bạn đang pát trạng thái người dùng đừng làm nó với tất cả nguời dùng 
 
 
-# Outcome
 
-##  You'll learn
+# Kết quả 
 
-- identify when a user is "online"
-- finding when a user goes "offline"
-- database schema design and deciding what data to store to make this efficient
-- building realtime user experiences using SocketIO
+##  Bạn sẽ học 
+
+- Định danh khi  người dùng **online**
+-  Tìm xem người dùng đã **offline**
+- Thiết kế lược đồ CSDL và quyết định dữ liệu nào được lưu để hiệu quả 
+- Xây dựng trải nghiệm người dùng realtime bằng cách sử dụng SocketIO 
+
 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
+ 
+Nếu bạn thấy hướng dẫn này hữu ích, hãy 
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+- chia sẻ nó với bạn bè và cộng sự của bạn 
+- Đánh giá repo này  và giúp nó tiếp cận với nhiều người hơn 
+- Cho tôi 1 lời cảm ơn  on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần của [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - Một lớp học chuyên sâu nơi giúp bạn trở lên giỏi ở thiết kế hệ thống lớn chịu lỗi và tính khả dụng  cao .
 <!--fe-->
