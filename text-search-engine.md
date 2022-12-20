@@ -1,81 +1,83 @@
-Design a Text-based Search Engine
+Thiết kế 1 công cụ tìm kiếm dựa trên văn bản 
 ===
 
 <!--ts-->
-* [Design a Text-based Search Engine](#design-a-text-based-search-engine)
-* [Problem Statement](#problem-statement)
-* [Requirements](#requirements)
-   * [Core Requirements](#core-requirements)
-   * [Micro Requirements](#micro-requirements)
-* [Output](#output)
-   * [Design Document](#design-document)
-   * [Prototype](#prototype)
-      * [Recommended Tech Stack](#recommended-tech-stack)
-* [Outcome](#outcome)
-   * [You'll learn](#youll-learn)
-* [Share and shoutout](#share-and-shoutout)
+* [Thiết kế 1 công cụ tìm kiếm dựa trên văn bản ](#design-a-text-based-search-engine)
+* [Báo cáo vấn đề ](#problem-statement)
+* [Các yêu cầu ](#requirements)
+   * [Các yêu cầu lõi ](#core-requirements)
+   * [Các yêu cầu vi mô](#micro-requirements)
+* [Đầu ra](#output)
+   * [Tài liệu thiết kế ](#design-document)
+   * [Nguyên mẫu ](#prototype)
+      * [Gợi ý công nghệ stack ](#recommended-tech-stack)
+* [Kết quả](#outcome)
+   * [Bạn sẽ học ](#youll-learn)
+* [Chia sẻ và cảm ơn ](#share-and-shoutout)
 <!--te-->
 
-# Problem Statement
+# Báo cáo vấn đề 
 
-Design a dead-simple text-based search engine that serves relevant results without using any tooling like ElasticSearch. The idea is to understand the internals of Search Engine and the math behind TF-IDF. Extend your search engine to support boolean expressions, typo tolerance, phonetics, and anything that you find amusing.
+Thiết kế 1 công cụ tìm kiếm dựa trên văn bản đơn giản cái mf phục vụ các kết quả liên quan mà không cần công cụ tìm kiếm như ElasticSearch. ý tưởng là  để hiểu các nội dung bên trong của Công cụ tìm kiếm và các phép toán đằng sau TF-IDF. Mở rộng công cụ tìm kiếm của bạn để hỗ trợ các biểu thức boolean, lỗi đánh máy, ngữ âm và bất kỳ cái gì cái mà bạn thấy thích.  
 
-# Requirements
+
+# Các yêu cầu 
 
 <!--rs-->
-*The problem statement is something to start with, be creative and dive into the product details and add constraints and features you think would be important.*
+*Báo cáo vấn đề là cái để bắt đầu, hãy sáng tạo và đào sâu vào chi tiết sản phẩm và thêm các ràng buộc và các đặc tính bạn nghĩ nó sẽ quan trọng.*
 <!--re-->
 
-## Core Requirements
+## Các yêu cầu lõi 
 
- - build a simple text based search engine that serves relevant results
- - make search engine as robust as possible
+- Xây dựng 1 công cụ tìm kiếm dựa trên văn bản đơn giản cái mà trả về kết quả liên quan. 
+- Làm cho công cụ manh mẽ nhất có thể
 
-##  Micro Requirements
+## Các yêu cầu vi mô 
 <!--ms-->
-- ensure the data in your system is **never** going in an inconsistent state
- - ensure your system is **free of deadlocks** (if applicable)
- - ensure that the throughput of your system is not affected by **locking**, if it does, state how it would affect
+- Đảm bảo dữ liệu trong hệ thống của bạn không bao giờ rơi vào trạng thái không nhất quán 
+ - Đảm bảo hệ thống của bạn là **không có lỗi** (nếu có thể) 
+ - Đảm bảo thông lượng của hệ thống của bạn không bị ảnh hưởng bởi **locking**, nếu có hãy phát biểu nó ảnh hưởng như nào. 
 <!--me-->
 
-# Output
+# Đầu ra 
 
-## Design Document
+## Tài liệu thiết kế 
 <!--ds-->
-Create a **design document** of this system/feature stating all critical design decisions, tradeoffs, components, services, and communications. Also specify how your system handles at scale, and what will eventually become a chokepoint.
+Tạo 1 **tài liệu thiểt kế** của hệ thống này/đặc tính này cho rằng tất cả các quyết định thiết kế quan trọng, các đánh đổi, các thành phần, các dịch vụ và thông tin liên lạc. Cũng chỉ rõ hệ thống của bạn sẽ xử lý như nào ở quy mô lớn và cái gì cuối cùng sẽ trở thành điểm nghẽn. 
 
-Do **not** create unnecessary components, just to make design look complicated. A good design is **always simple and elegant**. A good way to think about it is if you were to create a spearate process/machine/infra for each component and you will have to code it yourself, would you still do it?
+**Đừng** tạo ra các thành phần không cần thiết, cái mà chỉ làm cho hệ thống của bạn trông phức tạp. MỘt thiết kế tốt luôn **đơn giản và tao nhã**. Một cách tốt để nghĩ về điều đó là nếu bạn tạo ra các tiến trình/máy/cơ sở hạ tầng cho mỗi thành phần và bạn sẽ phải viết mã cho nó, bạn vẫn muốn làm ?
 <!--de-->
 
-## Prototype
+## Nguyên mẫu 
 
-To understand the nuances and internals of this system, build a prototype that
 
-- build a search engine on top of 100MB of text data using your favourite programming language
+Để hiểu các sắc thái và nội dung bên trong của hệ thống này, hãy xây dựng 1 nguyên mẫu: 
 
-###  Recommended Tech Stack
+- Xây dựng 1 công cụ tìm kiếm trên 100Mb dữ liệu bằng các sử dụng ngôn  ngữ yêu thich của bạn .
 
-This is a recommended tech-stack for building this prototype
+###  Gợi ý công nghệ stack 
+
+Đây là gợi công nghệ stack cho xây dựng nguyên mẫu này: 
 
 |Which|Options|
 |-----|-----|
 |Language|Golang, Java, C++|
 
-# Outcome
+# Kết quả 
 
-##  You'll learn
+##  Bạn sẽ học 
 
-- a simple text-based search engine
-- math behind tf-idf
+- Xây dựng 1 công cụ tìm kiếm dựa trên văn bản đơn giản 
+- Thuật toán đằng sau tf-idf 
 - basics of NLP - stemming, lemmatization, and phonetics
-
+- Cơ bản của NLF - stemming, bổ đề và ngữ âm 
 <!--fs-->
-#  Share and shoutout
+#  Chia sẻ và cảm ơn 
 
-If you find this assignment helpful, please
- - share this assignment with your friends and peers
- - star this repository and help it reach a wider audience
- - give me a shoutout on Twitter [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
+Nếu bạn thấy hướng dẫn này hữu ích, hãy 
+- Chia sẻ nó với bạn bè và cộng sự của bạn 
+- Đánh giá repo này và giúp nó tiếp cận với đông đảo khán giả 
+- Cho tôi 1 lời cảm ơn trên [@arpit_bhayani](https://twitter.com/@arpit_bhayani), or on LinkedIn at [@arpitbhayani](https://www.linkedin.com/in/arpitbhayani/).
 
-This assignment is part of [Arpit's System Design Masterclass](https://arpitbhayani.me/masterclass) - A masterclass that helps you become great at designing scalable, fault-tolerant, and highly available systems.
+Hướng dẫn này là 1 phần của (https://arpitbhayani.me/masterclass) - Một lớp học chuyên sâu nơi giúp bạn trở lê giỏi ở thiết kế hệ thống quy mô lớn, chịu lỗi và tính khả dụng cao 
 <!--fe-->
